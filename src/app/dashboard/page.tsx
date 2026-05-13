@@ -1,4 +1,5 @@
 import DashboardCard from "@/components/DashboardCard"; 
+import OrdersTable from "@/components/OrdersTable";
 
 export default function Dashboard() {
     return (
@@ -26,6 +27,9 @@ export default function Dashboard() {
 
                 
             </div>
+
+            <OrdersTable />
+
         </div>
     );
 }
