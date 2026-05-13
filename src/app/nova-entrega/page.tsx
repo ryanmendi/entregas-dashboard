@@ -10,18 +10,35 @@ export default function NovaEntrega() {
     const [valor, setValor] = useState("");
     const [data, setData] = useState("");
 
-    function handleSubmit(){
-        console.log({
-            nf,
-            empresa,
-            cnpj,
-            valor,
-            data
+    async function handleSubmit() {
+        const response = await fetch("/api/entregas", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({
+                nf,
+                empresa,
+                cnpj,
+                valor,
+                data,
+            }),
         });
 
-        alert("Entrega cadastrada");
+        if (response.ok) {
+            alert("Entrega cadastrada com sucesso!");
+
+            setNf("");
+            setEmpresa("");
+            setCnpj("");
+            setValor("");
+            setData("");
+        }
 
     }
+        
 
     return (
         <div className="max-w-2xl">

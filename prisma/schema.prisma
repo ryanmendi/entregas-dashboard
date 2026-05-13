@@ -13,6 +13,6 @@ model Entrega {
   empresa     String
   cnpj        String
   valor       Float
-  data        DateTime
+  dataSaida   DateTime
   createdAt   DateTime @default(now()) 
 }
