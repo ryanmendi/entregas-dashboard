@@ -1,55 +1,59 @@
-const pedidos = [
-    {
-    nf: "123456789",
-    empresa: "Scania",
-    valor: "R$ 5.000,00",
-    data: "10/05/2026",
-    },
+type Entrega = {
+    id: number;
+    nf: string;
+    empresa: string;
+    valor: number;
+    dataSaida: string;
+};
 
-    {
-    nf: "121212121",
-    empresa: "Volvo",
-    valor: "R$ 6.000,00",
-    data: "19/08/2026",
-    },
+async function getEntregas(): Promise<Entrega[]> {
+    
+    const response = await fetch(
+        "http://localhost:3000/api/entregas",
+        {
+            cache: "no-store",
+        }
+    );
 
-    {
-    nf: "123456789",
-    empresa: "Mercedes",
-    valor: "R$ 7.000,00",
-    data: "20/02/2026",
-    },
-];
+        return response.json();
 
-export default function OrdersTable() {
+}
+
+export default async function OrdersTable() {
+
+    const entregas = await getEntregas();
+
     return (
         <div className="bg-white rounded-xl shadow-md p-6 mt-8">
 
-            <h2 className="text-x1 font-bold mb-4">
-                Ultimos Pedidos
+            <h2 className="text-xl font-bold mb-4">
+                Últimas Entregas
             </h2>
 
             <table className="w-full">
                 <thead>
                     <tr className="text-left border-b">
-                        <th className="pb-3">NF</th>
-                        <th className="pb-3">Empresa</th>
-                        <th className="pb-3">Valor</th>
-                        <th className="pb-3">Data</th>
+                        <th className="py-2">Nota Fiscal</th>
+                        <th className="py-2">Empresa</th>
+                        <th className="py-2">Valor</th>
+                        <th className="py-2">Data de Saída</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {pedidos.map((pedido, index) => (
-                        <tr key={index} className="border-b">
-                            <td className="py-3">{pedido.nf}</td>
-                            <td className="">{pedido.empresa}</td>
-                            <td className="">{pedido.valor}</td>
-                            <td className="">{pedido.data}</td>
+                    {entregas.map((entrega) => (
+                        <tr key={entrega.id} className="border-b">
+                            <td className="py-2">{entrega.nf}</td>
+                            <td className="py-2">{entrega.empresa}</td>
+                            <td className="py-2">R$ {entrega.valor.toFixed(2)}</td>
+                            <td className="py-2">{new Date(entrega.dataSaida).toLocaleDateString()}</td>
                         </tr>
                     ))}
                 </tbody>
+
             </table>
+
         </div>
     );
+
 }

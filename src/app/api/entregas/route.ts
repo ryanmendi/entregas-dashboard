@@ -17,3 +17,12 @@ export async function POST(request: Request) {
 
   return NextResponse.json(entrega);
 }
+
+export async function GET() {
+  const entregas = await prisma.entrega.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return NextResponse.json(entregas);
+}
